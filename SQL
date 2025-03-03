@@ -1,0 +1,71 @@
+-- Criação do esquema do banco de dados
+CREATE TABLE CLIENTE (
+    id_cliente INT PRIMARY KEY,
+    nome VARCHAR(255),
+    endereco VARCHAR(255),
+    telefone VARCHAR(20),
+    email VARCHAR(255),
+    eh_pj BOOLEAN,
+    cpf_cnpj VARCHAR(20)
+);
+
+CREATE TABLE PAGAMENTO (
+    id_pagamento INT PRIMARY KEY,
+    id_cliente INT,
+    tipo_pagamento VARCHAR(50),
+    detalhes_pagamento VARCHAR(255),
+    FOREIGN KEY (id_cliente) REFERENCES CLIENTE(id_cliente)
+);
+
+CREATE TABLE PEDIDO (
+    id_pedido INT PRIMARY KEY,
+    id_cliente INT,
+    data_pedido DATE,
+    status_pedido VARCHAR(50),
+    FOREIGN KEY (id_cliente) REFERENCES CLIENTE(id_cliente)
+);
+
+CREATE TABLE PRODUTO (
+    id_produto INT PRIMARY KEY,
+    nome_produto VARCHAR(255),
+    descricao_produto VARCHAR(255),
+    preco_produto FLOAT
+);
+
+CREATE TABLE ESTOQUE (
+    id_estoque INT PRIMARY KEY,
+    id_produto INT,
+    quantidade_estoque INT,
+    FOREIGN KEY (id_produto) REFERENCES PRODUTO(id_produto)
+);
+
+CREATE TABLE FORNECEDOR (
+    id_fornecedor INT PRIMARY KEY,
+    nome_fornecedor VARCHAR(255),
+    contato_fornecedor VARCHAR(255)
+);
+
+CREATE TABLE FORNECEDOR_PRODUTO (
+    id_fornecedor_produto INT PRIMARY KEY,
+    id_fornecedor INT,
+    id_produto INT,
+    FOREIGN KEY (id_fornecedor) REFERENCES FORNECEDOR(id_fornecedor),
+    FOREIGN KEY (id_produto) REFERENCES PRODUTO(id_produto)
+);
+
+CREATE TABLE PEDIDO_PRODUTO (
+    id_pedido_produto INT PRIMARY KEY,
+    id_pedido INT,
+    id_produto INT,
+    quantidade_produto INT,
+    FOREIGN KEY (id_pedido) REFERENCES PEDIDO(id_pedido),
+    FOREIGN KEY (id_produto) REFERENCES PRODUTO(id_produto)
+);
+
+CREATE TABLE ENTREGA (
+    id_entrega INT PRIMARY KEY,
+    id_pedido INT,
+    codigo_rastreio VARCHAR(50),
+    status_entrega VARCHAR(50),
+    FOREIGN KEY (id_pedido) REFERENCES PEDIDO(id_pedido)
+);
