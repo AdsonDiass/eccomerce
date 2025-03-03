@@ -1,0 +1,72 @@
+erDiagram
+    CLIENTE {
+        INT id_cliente PK
+        VARCHAR nome
+        VARCHAR endereco
+        VARCHAR telefone
+        VARCHAR email
+        BOOLEAN eh_pj
+        VARCHAR cpf_cnpj
+    }
+
+    PAGAMENTO {
+        INT id_pagamento PK
+        INT id_cliente FK
+        VARCHAR tipo_pagamento
+        VARCHAR detalhes_pagamento
+    }
+
+    PEDIDO {
+        INT id_pedido PK
+        INT id_cliente FK
+        DATE data_pedido
+        VARCHAR status_pedido
+    }
+
+    PRODUTO {
+        INT id_produto PK
+        VARCHAR nome_produto
+        VARCHAR descricao_produto
+        FLOAT preco_produto
+    }
+
+    ESTOQUE {
+        INT id_estoque PK
+        INT id_produto FK
+        INT quantidade_estoque
+    }
+
+    FORNECEDOR {
+        INT id_fornecedor PK
+        VARCHAR nome_fornecedor
+        VARCHAR contato_fornecedor
+    }
+
+    FORNECEDOR_PRODUTO {
+        INT id_fornecedor_produto PK
+        INT id_fornecedor FK
+        INT id_produto FK
+    }
+
+    PEDIDO_PRODUTO {
+        INT id_pedido_produto PK
+        INT id_pedido FK
+        INT id_produto FK
+        INT quantidade_produto
+    }
+
+    ENTREGA {
+        INT id_entrega PK
+        INT id_pedido FK
+        VARCHAR codigo_rastreio
+        VARCHAR status_entrega
+    }
+
+    CLIENTE ||--o{ PAGAMENTO : possui
+    CLIENTE ||--o{ PEDIDO : realiza
+    PEDIDO ||--o{ PEDIDO_PRODUTO : contem
+    PRODUTO ||--o{ PEDIDO_PRODUTO : contem
+    PRODUTO ||--o{ ESTOQUE : possui
+    FORNECEDOR ||--o{ FORNECEDOR_PRODUTO : fornece
+    PRODUTO ||--o{ FORNECEDOR_PRODUTO : fornecido
+    PEDIDO ||--o{ ENTREGA : possui
